@@ -4,6 +4,7 @@ import org.lwjgl.Version;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
+import org.lwjgl.opengl.GL11;
 import org.lwjgl.system.MemoryStack;
 
 import java.nio.IntBuffer;
@@ -41,7 +42,7 @@ public class Game {
         glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE); // the window will stay hidden after creation
 
         // Create the window
-        window = glfwCreateWindow(1024, 768, "Arkanoid", NULL, NULL);
+        window = glfwCreateWindow(768, 768, "Arkanoid", NULL, NULL);
         if (window == NULL) {
             throw new RuntimeException("Failed to create the GLFW window");
         }
@@ -99,6 +100,8 @@ public class Game {
         while (!glfwWindowShouldClose(window)) {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
 
+            renderRectangle(0, 0, 1, 1);
+
             glfwSwapBuffers(window); // swap the color buffers
 
             // Poll for window events. The key callback above will only be
@@ -118,4 +121,21 @@ public class Game {
         glfwSetErrorCallback(null).free();
     }
 
+    // TODO: 7/15/2022 Move to renderer class
+    // TODO: 7/15/2022 Center rectangle and handle minuses
+    // TODO: 7/15/2022 Add colour to signature
+    public void renderRectangle(int x, int y, int width, int height) {
+        float multiplier = 0.1f;
+        float floatWidth = width * multiplier;
+        float floatHeight = height * multiplier;
+
+        GL11.glColor3f(0, 255, 255);
+
+        glBegin(GL_QUADS);
+        glVertex2f(x, y);
+        glVertex2f(floatWidth, y);
+        glVertex2f(floatWidth, floatHeight);
+        glVertex2f(x, floatHeight);
+        glEnd();
+    }
 }
