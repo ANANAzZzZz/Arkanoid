@@ -18,6 +18,8 @@ import static org.lwjgl.system.MemoryUtil.NULL;
 
 public class Game {
     private long window;
+    private final int screenLength = 768;
+    private final float multiplier = 0.05f;
 
     public void run() {
         init();
@@ -42,7 +44,7 @@ public class Game {
         glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE); // the window will stay hidden after creation
 
         // Create the window
-        window = glfwCreateWindow(768, 768, "Arkanoid", NULL, NULL);
+        window = glfwCreateWindow(screenLength, screenLength, "Arkanoid", NULL, NULL);
         if (window == NULL) {
             throw new RuntimeException("Failed to create the GLFW window");
         }
@@ -93,14 +95,18 @@ public class Game {
         GL.createCapabilities();
 
         // Set the clear color
-        glClearColor(1.0f, 0.0f, 0.0f, 0.0f);
+        glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
         // Run the rendering loop until the user has attempted to close
         // the window or has pressed the ESCAPE key.
         while (!glfwWindowShouldClose(window)) {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
 
+            renderAxis();
+
             renderRectangle(0, 0, 1, 1);
+            renderRectangle(1, 1, 1, 1);
+            renderRectangle(0, 4, 3, 1);
 
             glfwSwapBuffers(window); // swap the color buffers
 
@@ -108,6 +114,11 @@ public class Game {
             // invoked during this call.
             glfwPollEvents();
         }
+    }
+
+    private void renderAxis() {
+        renderLine(0, screenLength / 2, 0, -screenLength / 2);
+        renderLine(-screenLength / 2, 0, screenLength / 2, 0);
     }
 
     private void terminate() {
@@ -122,20 +133,34 @@ public class Game {
     }
 
     // TODO: 7/15/2022 Move to renderer class
-    // TODO: 7/15/2022 Center rectangle and handle minuses
     // TODO: 7/15/2022 Add colour to signature
     public void renderRectangle(int x, int y, int width, int height) {
-        float multiplier = 0.1f;
-        float floatWidth = width * multiplier;
-        float floatHeight = height * multiplier;
+        float scaledX = x * multiplier;
+        float scaledY = y * multiplier;
+        float scaledHalfWidth = width * multiplier / 2;
+        float scaledHalfHeight = height * multiplier / 2;
 
-        GL11.glColor3f(0, 255, 255);
+        GL11.glColor3f(255, 255, 255);
 
         glBegin(GL_QUADS);
-        glVertex2f(x, y);
-        glVertex2f(floatWidth, y);
-        glVertex2f(floatWidth, floatHeight);
-        glVertex2f(x, floatHeight);
+        glVertex2f(scaledX - scaledHalfWidth, scaledY - scaledHalfHeight);
+        glVertex2f(scaledX + scaledHalfWidth, scaledY - scaledHalfHeight);
+        glVertex2f(scaledX + scaledHalfWidth, scaledY + scaledHalfHeight);
+        glVertex2f(scaledX - scaledHalfWidth, scaledY + scaledHalfHeight);
+        glEnd();
+    }
+
+    public void renderLine(int x1, int y1, int x2, int y2) {
+        float scaledX1 = x1 * multiplier;
+        float scaledY1 = y1 * multiplier;
+        float scaledX2 = x2 * multiplier;
+        float scaledY2 = y2 * multiplier;
+
+        GL11.glColor3f(255, 255, 0);
+
+        glBegin(GL_LINES);
+        glVertex2f(scaledX1, scaledY1);
+        glVertex2f(scaledX2, scaledY2);
         glEnd();
     }
 }
