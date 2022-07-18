@@ -1,7 +1,10 @@
 package ANANAzZzZz.game;
 
+import ANANAzZzZz.game.entities.Brick;
 import ANANAzZzZz.game.foundation.Renderer;
 import org.lwjgl.opengl.GL;
+
+import java.util.ArrayList;
 
 import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
 import static org.lwjgl.glfw.GLFW.*;
@@ -46,12 +49,19 @@ public class Game {
         // Set the clear color
         glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
+        // TODO: 7/18/2022 move bricks creation to GameLogicProcessor
+        ArrayList<Brick> bricks = new ArrayList<>();
+        for (int i = -9; i < 10; i++) {
+            bricks.add(new Brick(i * 2, 10));
+            bricks.add(new Brick(i * 2, 9));
+        }
+
         // Run the rendering loop until the user has attempted to close
         // the window or has pressed the ESCAPE key.
         while (!glfwWindowShouldClose(windowId)) {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
 
-            renderer.render(windowId);
+            renderer.render(windowId, bricks);
 
             // Poll for window events. The key callback above will only be
             // invoked during this call.

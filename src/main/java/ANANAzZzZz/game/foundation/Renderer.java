@@ -1,11 +1,14 @@
 package ANANAzZzZz.game.foundation;
 
+import ANANAzZzZz.game.entities.Brick;
+import ANANAzZzZz.game.entities.Point;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.system.MemoryStack;
 
 import java.nio.IntBuffer;
+import java.util.ArrayList;
 
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
@@ -76,12 +79,9 @@ public class Renderer {
     }
 
     // TODO: 7/17/2022 add game state to signature
-    public void render(long windowId) {
+    public void render(long windowId, ArrayList<Brick> bricks) {
         renderAxis();
-
-        renderRectangle(0, 0, 1, 1);
-        renderRectangle(1, 1, 1, 1);
-        renderRectangle(0, 4, 3, 1);
+        renderBricks(bricks);
 
         glfwSwapBuffers(windowId); // swap the color buffers
     }
@@ -91,13 +91,21 @@ public class Renderer {
         renderLine(-screenLength / 2, 0, screenLength / 2, 0);
     }
 
+    private void renderBricks(ArrayList<Brick> bricks) {
+        for (Brick brick : bricks) {
+            Point point = brick.getCoordinate();
+            renderRectangle(point.x, point.y, 2, 1);
+        }
+    }
+
     // TODO: 7/15/2022 Move to renderer class
     // TODO: 7/15/2022 Add colour to signature
-    public void renderRectangle(int x, int y, int width, int height) {
+    @SuppressWarnings("SameParameterValue")
+    private void renderRectangle(int x, int y, int width, int height) {
         float scaledX = x * multiplier;
         float scaledY = y * multiplier;
-        float scaledHalfWidth = width * multiplier / 2;
-        float scaledHalfHeight = height * multiplier / 2;
+        float scaledHalfWidth = (width / 2f - width / 25f) * multiplier;
+        float scaledHalfHeight = (height / 2f - height / 15f) * multiplier;
 
         GL11.glColor3f(255, 255, 255);
 
@@ -109,7 +117,7 @@ public class Renderer {
         glEnd();
     }
 
-    public void renderLine(int x1, int y1, int x2, int y2) {
+    private void renderLine(int x1, int y1, int x2, int y2) {
         float scaledX1 = x1 * multiplier;
         float scaledY1 = y1 * multiplier;
         float scaledX2 = x2 * multiplier;
