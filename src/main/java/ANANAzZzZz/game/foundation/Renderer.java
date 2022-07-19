@@ -1,7 +1,8 @@
 package ANANAzZzZz.game.foundation;
 
-import ANANAzZzZz.game.entities.Brick;
+import ANANAzZzZz.game.entities.Color;
 import ANANAzZzZz.game.entities.Point;
+import ANANAzZzZz.game.entities.bricks.Brick;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL11;
@@ -94,20 +95,18 @@ public class Renderer {
     private void renderBricks(ArrayList<Brick> bricks) {
         for (Brick brick : bricks) {
             Point point = brick.getCoordinate();
-            renderRectangle(point.x, point.y, 2, 1);
+            renderRectangle(point.x, point.y, 2, 1, brick.getColor());
         }
     }
 
-    // TODO: 7/15/2022 Move to renderer class
-    // TODO: 7/15/2022 Add colour to signature
     @SuppressWarnings("SameParameterValue")
-    private void renderRectangle(int x, int y, int width, int height) {
+    private void renderRectangle(int x, int y, int width, int height, Color color) {
         float scaledX = x * multiplier;
         float scaledY = y * multiplier;
         float scaledHalfWidth = (width / 2f - width / 25f) * multiplier;
         float scaledHalfHeight = (height / 2f - height / 15f) * multiplier;
 
-        GL11.glColor3f(255, 255, 255);
+        GL11.glColor3f(color.getFloatRed(), color.getFloatGreen(), color.getFloatBlue());
 
         glBegin(GL_QUADS);
         glVertex2f(scaledX - scaledHalfWidth, scaledY - scaledHalfHeight);

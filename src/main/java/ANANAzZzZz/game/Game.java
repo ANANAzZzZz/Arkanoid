@@ -1,6 +1,9 @@
 package ANANAzZzZz.game;
 
-import ANANAzZzZz.game.entities.Brick;
+import ANANAzZzZz.game.entities.bricks.Brick;
+import ANANAzZzZz.game.entities.bricks.GoldenBrick;
+import ANANAzZzZz.game.entities.bricks.SimpleBrick;
+import ANANAzZzZz.game.entities.bricks.UnbreakableBrick;
 import ANANAzZzZz.game.foundation.Renderer;
 import org.lwjgl.opengl.GL;
 
@@ -52,8 +55,9 @@ public class Game {
         // TODO: 7/18/2022 move bricks creation to GameLogicProcessor
         ArrayList<Brick> bricks = new ArrayList<>();
         for (int i = -9; i < 10; i++) {
-            bricks.add(new Brick(i * 2, 10));
-            bricks.add(new Brick(i * 2, 9));
+            bricks.add(new UnbreakableBrick(i * 2, 11));
+            bricks.add(new GoldenBrick(i * 2, 10));
+            bricks.add(new SimpleBrick(i * 2, 9));
         }
 
         // Run the rendering loop until the user has attempted to close

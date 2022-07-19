@@ -1,6 +1,9 @@
-package ANANAzZzZz.game.entities;
+package ANANAzZzZz.game.entities.bricks;
 
-public class Brick {
+import ANANAzZzZz.game.entities.Color;
+import ANANAzZzZz.game.entities.Point;
+
+public abstract class Brick {
     private final Point coordinate;
 
     public Brick(int x, int y) {
@@ -10,4 +13,6 @@ public class Brick {
     public Point getCoordinate() {
         return new Point(coordinate);
     }
+
+    public abstract Color getColor();
 }
