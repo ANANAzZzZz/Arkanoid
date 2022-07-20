@@ -1,6 +1,7 @@
 package ANANAzZzZz.game.foundation;
 
 import ANANAzZzZz.game.entities.Color;
+import ANANAzZzZz.game.entities.GameState;
 import ANANAzZzZz.game.entities.Point;
 import ANANAzZzZz.game.entities.bricks.Brick;
 import org.lwjgl.glfw.GLFWErrorCallback;
@@ -79,10 +80,9 @@ public class Renderer {
         glfwSetErrorCallback(null).free();
     }
 
-    // TODO: 7/17/2022 add game state to signature
-    public void render(long windowId, ArrayList<Brick> bricks) {
+    public void render(long windowId, GameState gameState) {
         renderAxis();
-        renderBricks(bricks);
+        renderBricks(gameState.bricks);
 
         glfwSwapBuffers(windowId); // swap the color buffers
     }

@@ -2,6 +2,7 @@ package ANANAzZzZz.game.entities.bricks;
 
 import ANANAzZzZz.game.entities.Color;
 
+// TODO: 7/20/2022 make color field static
 public abstract class ConstantColorBrick extends Brick {
     private final Color color;
 

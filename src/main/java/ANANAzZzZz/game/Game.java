@@ -1,23 +1,23 @@
 package ANANAzZzZz.game;
 
-import ANANAzZzZz.game.entities.bricks.Brick;
-import ANANAzZzZz.game.entities.bricks.GoldenBrick;
-import ANANAzZzZz.game.entities.bricks.SimpleBrick;
-import ANANAzZzZz.game.entities.bricks.UnbreakableBrick;
+import ANANAzZzZz.game.entities.GameState;
+import ANANAzZzZz.game.foundation.LogicProcessor;
 import ANANAzZzZz.game.foundation.Renderer;
 import org.lwjgl.opengl.GL;
-
-import java.util.ArrayList;
 
 import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
 
 public class Game {
+    private final LogicProcessor logicProcessor;
     private final Renderer renderer;
+
+    private GameState gameState;
     private long windowId;
 
     public Game() {
+        logicProcessor = new LogicProcessor();
         renderer = new Renderer();
     }
 
@@ -28,6 +28,8 @@ public class Game {
     }
 
     private void init() {
+        gameState = logicProcessor.initGameState();
+
         windowId = renderer.createWindow();
 
         // Setup a key callback. It will be called every time a key is pressed, repeated or released.
@@ -52,20 +54,12 @@ public class Game {
         // Set the clear color
         glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
-        // TODO: 7/18/2022 move bricks creation to GameLogicProcessor
-        ArrayList<Brick> bricks = new ArrayList<>();
-        for (int i = -9; i < 10; i++) {
-            bricks.add(new UnbreakableBrick(i * 2, 11));
-            bricks.add(new GoldenBrick(i * 2, 10));
-            bricks.add(new SimpleBrick(i * 2, 9));
-        }
-
         // Run the rendering loop until the user has attempted to close
         // the window or has pressed the ESCAPE key.
         while (!glfwWindowShouldClose(windowId)) {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
 
-            renderer.render(windowId, bricks);
+            renderer.render(windowId, gameState);
 
             // Poll for window events. The key callback above will only be
             // invoked during this call.
