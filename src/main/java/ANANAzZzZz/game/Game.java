@@ -5,11 +5,9 @@ import ANANAzZzZz.game.entities.Input;
 import ANANAzZzZz.game.foundation.GameStateProcessor;
 import ANANAzZzZz.game.foundation.InputReader;
 import ANANAzZzZz.game.foundation.Renderer;
-import org.lwjgl.opengl.GL;
 
 import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
 import static org.lwjgl.glfw.GLFW.*;
-import static org.lwjgl.opengl.GL11.*;
 
 public class Game {
     private final InputReader inputReader;
@@ -48,30 +46,15 @@ public class Game {
     }
 
     private void loop() {
-        // This line is critical for LWJGL's interoperation with GLFW's
-        // OpenGL context, or any context that is managed externally.
-        // LWJGL detects the context that is current in the current thread,
-        // creates the GLCapabilities instance and makes the OpenGL
-        // bindings available for use.
-        GL.createCapabilities();
-
-        // Set the clear color
-        glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+        renderer.setup();
 
         // Run the rendering loop until the user has attempted to close
         // the window or has pressed the ESCAPE key.
         while (!glfwWindowShouldClose(windowId)) {
             Input input = inputReader.read();
-
             gameState = gameStateProcessor.update(input, gameState);
-
-            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
-
             renderer.render(windowId, gameState);
-
-            // Poll for window events. The key callback above will only be
-            // invoked during this call.
-            glfwPollEvents();
+            inputReader.pollEvents();
         }
     }
 

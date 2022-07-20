@@ -6,6 +6,7 @@ import ANANAzZzZz.game.entities.Point;
 import ANANAzZzZz.game.entities.bricks.Brick;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWVidMode;
+import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.system.MemoryStack;
 
@@ -20,6 +21,18 @@ import static org.lwjgl.system.MemoryUtil.NULL;
 public class Renderer {
     private final int screenLength = 768;
     private final float multiplier = 0.05f;
+
+    public void setup() {
+        // This line is critical for LWJGL's interoperation with GLFW's
+        // OpenGL context, or any context that is managed externally.
+        // LWJGL detects the context that is current in the current thread,
+        // creates the GLCapabilities instance and makes the OpenGL
+        // bindings available for use.
+        GL.createCapabilities();
+
+        // Set the clear color
+        glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+    }
 
     public long createWindow() {
         // Setup an error callback. The default implementation
@@ -81,6 +94,8 @@ public class Renderer {
     }
 
     public void render(long windowId, GameState gameState) {
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
+
         renderAxis();
         renderBricks(gameState.bricks);
 
