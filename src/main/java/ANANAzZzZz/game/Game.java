@@ -1,7 +1,9 @@
 package ANANAzZzZz.game;
 
 import ANANAzZzZz.game.entities.GameState;
-import ANANAzZzZz.game.foundation.LogicProcessor;
+import ANANAzZzZz.game.entities.Input;
+import ANANAzZzZz.game.foundation.GameStateProcessor;
+import ANANAzZzZz.game.foundation.InputReader;
 import ANANAzZzZz.game.foundation.Renderer;
 import org.lwjgl.opengl.GL;
 
@@ -10,14 +12,16 @@ import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
 
 public class Game {
-    private final LogicProcessor logicProcessor;
+    private final InputReader inputReader;
+    private final GameStateProcessor gameStateProcessor;
     private final Renderer renderer;
 
     private GameState gameState;
     private long windowId;
 
     public Game() {
-        logicProcessor = new LogicProcessor();
+        inputReader = new InputReader();
+        gameStateProcessor = new GameStateProcessor();
         renderer = new Renderer();
     }
 
@@ -28,7 +32,7 @@ public class Game {
     }
 
     private void init() {
-        gameState = logicProcessor.initGameState();
+        gameState = gameStateProcessor.init();
 
         windowId = renderer.createWindow();
 
@@ -57,6 +61,10 @@ public class Game {
         // Run the rendering loop until the user has attempted to close
         // the window or has pressed the ESCAPE key.
         while (!glfwWindowShouldClose(windowId)) {
+            Input input = inputReader.read();
+
+            gameState = gameStateProcessor.update(input, gameState);
+
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
 
             renderer.render(windowId, gameState);
