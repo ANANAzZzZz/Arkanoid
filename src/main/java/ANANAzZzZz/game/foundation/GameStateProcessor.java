@@ -21,6 +21,11 @@ public class GameStateProcessor {
 
     // TODO: 7/20/2022 implement
     public GameState update(Input input, GameState gameState) {
+        if (input.space) {
+            // Temporary
+            gameState.bricks.clear();
+        }
+
         return gameState;
     }
 }

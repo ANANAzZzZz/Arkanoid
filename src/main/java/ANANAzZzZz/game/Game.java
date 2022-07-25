@@ -7,7 +7,8 @@ import ANANAzZzZz.game.foundation.InputReader;
 import ANANAzZzZz.game.foundation.Renderer;
 
 import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
-import static org.lwjgl.glfw.GLFW.*;
+import static org.lwjgl.glfw.GLFW.glfwTerminate;
+import static org.lwjgl.glfw.GLFW.glfwWindowShouldClose;
 
 public class Game {
     private final InputReader inputReader;
@@ -31,17 +32,8 @@ public class Game {
 
     private void init() {
         gameState = gameStateProcessor.init();
-
         windowId = renderer.createWindow();
-
-        // Setup a key callback. It will be called every time a key is pressed, repeated or released.
-        //noinspection resource
-        glfwSetKeyCallback(windowId, (window, key, scancode, action, mods) -> {
-            if (key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE) {
-                glfwSetWindowShouldClose(window, true); // We will detect this in the rendering loop
-            }
-        });
-
+        inputReader.initCallbacks(windowId);
         renderer.showWindow(windowId);
     }
 
@@ -54,7 +46,6 @@ public class Game {
             Input input = inputReader.read();
             gameState = gameStateProcessor.update(input, gameState);
             renderer.render(windowId, gameState);
-            inputReader.pollEvents();
         }
     }
 
