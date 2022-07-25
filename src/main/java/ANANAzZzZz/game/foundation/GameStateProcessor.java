@@ -6,7 +6,15 @@ import ANANAzZzZz.game.entities.bricks.GoldenBrick;
 import ANANAzZzZz.game.entities.bricks.SimpleBrick;
 import ANANAzZzZz.game.entities.bricks.UnbreakableBrick;
 
+import java.util.Random;
+
 public class GameStateProcessor {
+    private final Random random;
+
+    public GameStateProcessor() {
+        random = new Random();
+    }
+
     public GameState init() {
         GameState gameState = new GameState();
 
@@ -19,11 +27,16 @@ public class GameStateProcessor {
         return gameState;
     }
 
-    // TODO: 7/20/2022 implement
     public GameState update(Input input, GameState gameState) {
         if (input.space) {
-            // Temporary
-            gameState.bricks.clear();
+            for (int i = 0; i < 3; i++) {
+                if (gameState.bricks.size() == 0) {
+                    break;
+                }
+
+                int randomNum = random.nextInt(gameState.bricks.size());
+                gameState.bricks.remove(randomNum);
+            }
         }
 
         return gameState;
