@@ -2,10 +2,7 @@ package ANANAzZzZz.game.foundation;
 
 import ANANAzZzZz.game.entities.GameState;
 import ANANAzZzZz.game.entities.Input;
-import ANANAzZzZz.game.entities.bricks.Brick;
-import ANANAzZzZz.game.entities.bricks.GoldenBrick;
-import ANANAzZzZz.game.entities.bricks.SimpleBrick;
-import ANANAzZzZz.game.entities.bricks.UnbreakableBrick;
+import ANANAzZzZz.game.entities.bricks.*;
 
 import java.util.Iterator;
 import java.util.Random;
@@ -22,8 +19,9 @@ public class GameStateProcessor {
 
         for (int i = -9; i < 10; i++) {
             gameState.bricks.add(new UnbreakableBrick(i * 2, 11));
-            gameState.bricks.add(new GoldenBrick(i * 2, 10));
-            gameState.bricks.add(new SimpleBrick(i * 2, 9));
+            gameState.bricks.add(new MultiHitBrick(i * 2, 10));
+            gameState.bricks.add(new GoldenBrick(i * 2, 9));
+            gameState.bricks.add(new SimpleBrick(i * 2, 8));
         }
 
         return gameState;
