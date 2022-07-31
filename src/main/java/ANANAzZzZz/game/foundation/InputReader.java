@@ -17,8 +17,16 @@ public class InputReader {
         glfwSetKeyCallback(windowId, (window, key, scancode, action, mods) -> {
             if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS) {
                 glfwSetWindowShouldClose(window, true);
-            } else if (key == GLFW_KEY_SPACE && action == GLFW_PRESS) {
-                input.space = true;
+            }
+
+            if (key == GLFW_KEY_Z && action == GLFW_PRESS) {
+                input.z = true;
+            }
+            if (key == GLFW_KEY_X && action == GLFW_PRESS) {
+                input.x = true;
+            }
+            if (key == GLFW_KEY_C && action == GLFW_PRESS) {
+                input.c = true;
             }
         });
     }

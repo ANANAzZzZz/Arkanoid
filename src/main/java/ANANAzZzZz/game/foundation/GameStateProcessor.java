@@ -28,8 +28,17 @@ public class GameStateProcessor {
     }
 
     public GameState update(Input input, GameState gameState) {
-        if (input.space) {
-            for (int i = 0; i < 3; i++) {
+        if (input.z || input.x || input.c) {
+            int bricksCountToDelete;
+            if (input.z) {
+                bricksCountToDelete = 1;
+            } else if (input.x) {
+                bricksCountToDelete = 5;
+            } else {
+                bricksCountToDelete = gameState.bricks.size();
+            }
+
+            for (int i = 0; i < bricksCountToDelete; i++) {
                 if (gameState.bricks.size() == 0) {
                     break;
                 }
