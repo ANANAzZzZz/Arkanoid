@@ -6,4 +6,9 @@ public class SimpleBrick extends ConstantColorBrick {
     public SimpleBrick(int x, int y) {
         super(x, y, new Color(255, 255, 255));
     }
+
+    @Override
+    public boolean hit() {
+        return true;
+    }
 }

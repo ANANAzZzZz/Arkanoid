@@ -7,4 +7,9 @@ public class GoldenBrick extends ConstantColorBrick {
     public GoldenBrick(int x, int y) {
         super(x, y, new Color(255, 215, 0));
     }
+
+    @Override
+    public boolean hit() {
+        return true;
+    }
 }

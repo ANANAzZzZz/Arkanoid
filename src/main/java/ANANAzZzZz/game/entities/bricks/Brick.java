@@ -14,5 +14,8 @@ public abstract class Brick {
         return new Point(coordinate);
     }
 
+    // returns true - if brick is destroyed
+    public abstract boolean hit();
+
     public abstract Color getColor();
 }

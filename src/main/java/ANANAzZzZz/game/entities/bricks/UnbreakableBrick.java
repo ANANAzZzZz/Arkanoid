@@ -7,4 +7,9 @@ public class UnbreakableBrick extends ConstantColorBrick {
     public UnbreakableBrick(int x, int y) {
         super(x, y, new Color(125, 125, 125));
     }
+
+    @Override
+    public boolean hit() {
+        return false;
+    }
 }

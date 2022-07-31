@@ -2,10 +2,12 @@ package ANANAzZzZz.game.foundation;
 
 import ANANAzZzZz.game.entities.GameState;
 import ANANAzZzZz.game.entities.Input;
+import ANANAzZzZz.game.entities.bricks.Brick;
 import ANANAzZzZz.game.entities.bricks.GoldenBrick;
 import ANANAzZzZz.game.entities.bricks.SimpleBrick;
 import ANANAzZzZz.game.entities.bricks.UnbreakableBrick;
 
+import java.util.Iterator;
 import java.util.Random;
 
 public class GameStateProcessor {
@@ -28,15 +30,8 @@ public class GameStateProcessor {
     }
 
     public GameState update(Input input, GameState gameState) {
-        if (input.z || input.x || input.c) {
-            int bricksCountToDelete;
-            if (input.z) {
-                bricksCountToDelete = 1;
-            } else if (input.x) {
-                bricksCountToDelete = 5;
-            } else {
-                bricksCountToDelete = gameState.bricks.size();
-            }
+        if (input.z || input.x) {
+            int bricksCountToDelete = input.z ? 1 : 5;
 
             for (int i = 0; i < bricksCountToDelete; i++) {
                 if (gameState.bricks.size() == 0) {
@@ -44,7 +39,22 @@ public class GameStateProcessor {
                 }
 
                 int randomNum = random.nextInt(gameState.bricks.size());
-                gameState.bricks.remove(randomNum);
+                boolean isDestroyed = gameState.bricks.get(randomNum).hit();
+                if (isDestroyed) {
+                    gameState.bricks.remove(randomNum);
+                }
+            }
+        }
+
+        if (input.c) {
+            Iterator<Brick> i = gameState.bricks.iterator();
+            while (i.hasNext()) {
+                Brick b = i.next();
+
+                boolean isDestroyed = b.hit();
+                if (isDestroyed) {
+                    i.remove();
+                }
             }
         }
 
