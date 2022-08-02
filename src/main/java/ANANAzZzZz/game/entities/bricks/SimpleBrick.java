@@ -1,10 +1,10 @@
 package ANANAzZzZz.game.entities.bricks;
 
-import ANANAzZzZz.game.entities.Color;
+import ANANAzZzZz.game.entities.Colors;
 
 public class SimpleBrick extends ConstantColorBrick {
     public SimpleBrick(int x, int y) {
-        super(x, y, new Color(255, 255, 255));
+        super(x, y, Colors.white);
     }
 
     @Override
