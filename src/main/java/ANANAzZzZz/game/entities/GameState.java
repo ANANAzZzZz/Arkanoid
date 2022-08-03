@@ -5,9 +5,11 @@ import ANANAzZzZz.game.entities.bricks.Brick;
 import java.util.ArrayList;
 
 public class GameState {
-    public ArrayList<Brick> bricks;
+    public final Player player;
+    public final ArrayList<Brick> bricks;
 
-    public GameState() {
-        this.bricks = new ArrayList<>();
+    public GameState(Player player, ArrayList<Brick> bricks) {
+        this.player = player;
+        this.bricks = bricks;
     }
 }

@@ -1,8 +1,6 @@
 package ANANAzZzZz.game.foundation;
 
-import ANANAzZzZz.game.entities.Color;
-import ANANAzZzZz.game.entities.GameState;
-import ANANAzZzZz.game.entities.Point;
+import ANANAzZzZz.game.entities.*;
 import ANANAzZzZz.game.entities.bricks.Brick;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWVidMode;
@@ -98,6 +96,7 @@ public class Renderer {
 
         renderAxis();
         renderBricks(gameState.bricks);
+        renderPlayer(gameState.player);
 
         glfwSwapBuffers(windowId); // swap the color buffers
     }
@@ -112,6 +111,11 @@ public class Renderer {
             Point point = brick.getCoordinate();
             renderRectangle(point.x, point.y, 20, 10, brick.getColor());
         }
+    }
+
+    private void renderPlayer(Player player) {
+        Point coordinate = player.getCoordinate();
+        renderRectangle(coordinate.x, coordinate.y, 40, 10, Colors.white);
     }
 
     @SuppressWarnings("SameParameterValue")

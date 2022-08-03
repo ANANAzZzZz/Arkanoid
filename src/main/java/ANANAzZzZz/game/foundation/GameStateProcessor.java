@@ -2,8 +2,11 @@ package ANANAzZzZz.game.foundation;
 
 import ANANAzZzZz.game.entities.GameState;
 import ANANAzZzZz.game.entities.Input;
+import ANANAzZzZz.game.entities.Player;
+import ANANAzZzZz.game.entities.Point;
 import ANANAzZzZz.game.entities.bricks.*;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
 
@@ -15,16 +18,17 @@ public class GameStateProcessor {
     }
 
     public GameState init() {
-        GameState gameState = new GameState();
+        Player player = new Player(new Point(0, -120));
 
+        ArrayList<Brick> bricks = new ArrayList<>();
         for (int i = -9; i < 10; i++) {
-            gameState.bricks.add(new UnbreakableBrick(i * 20, 110));
-            gameState.bricks.add(new MultiHitBrick(i * 20, 100));
-            gameState.bricks.add(new GoldenBrick(i * 20, 90));
-            gameState.bricks.add(new SimpleBrick(i * 20, 80));
+            bricks.add(new UnbreakableBrick(i * 20, 110));
+            bricks.add(new MultiHitBrick(i * 20, 100));
+            bricks.add(new GoldenBrick(i * 20, 90));
+            bricks.add(new SimpleBrick(i * 20, 80));
         }
 
-        return gameState;
+        return new GameState(player, bricks);
     }
 
     public GameState update(Input input, GameState gameState) {
