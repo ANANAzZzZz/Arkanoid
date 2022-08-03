@@ -20,7 +20,7 @@ import static org.lwjgl.system.MemoryUtil.NULL;
 
 public class Renderer {
     private final int screenLength = 768;
-    private final float multiplier = 0.05f;
+    private final float multiplier = 0.005f;
 
     public void setup() {
         // This line is critical for LWJGL's interoperation with GLFW's
@@ -110,7 +110,7 @@ public class Renderer {
     private void renderBricks(ArrayList<Brick> bricks) {
         for (Brick brick : bricks) {
             Point point = brick.getCoordinate();
-            renderRectangle(point.x, point.y, 2, 1, brick.getColor());
+            renderRectangle(point.x, point.y, 20, 10, brick.getColor());
         }
     }
 

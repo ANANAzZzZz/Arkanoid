@@ -18,10 +18,10 @@ public class GameStateProcessor {
         GameState gameState = new GameState();
 
         for (int i = -9; i < 10; i++) {
-            gameState.bricks.add(new UnbreakableBrick(i * 2, 11));
-            gameState.bricks.add(new MultiHitBrick(i * 2, 10));
-            gameState.bricks.add(new GoldenBrick(i * 2, 9));
-            gameState.bricks.add(new SimpleBrick(i * 2, 8));
+            gameState.bricks.add(new UnbreakableBrick(i * 20, 110));
+            gameState.bricks.add(new MultiHitBrick(i * 20, 100));
+            gameState.bricks.add(new GoldenBrick(i * 20, 90));
+            gameState.bricks.add(new SimpleBrick(i * 20, 80));
         }
 
         return gameState;
