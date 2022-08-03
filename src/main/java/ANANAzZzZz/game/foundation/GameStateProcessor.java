@@ -40,6 +40,15 @@ public class GameStateProcessor {
             hitAllBricks(gameState);
         }
 
+        if (!(input.leftArrow && input.rightArrow)) {
+            if (input.leftArrow) {
+                gameState.player.move(-1);
+            }
+            if (input.rightArrow) {
+                gameState.player.move(1);
+            }
+        }
+
         return gameState;
     }
 

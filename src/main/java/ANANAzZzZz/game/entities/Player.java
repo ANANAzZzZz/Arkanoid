@@ -10,4 +10,8 @@ public class Player {
     public Point getCoordinate() {
         return new Point(coordinate);
     }
+
+    public void move(int offset) {
+        coordinate.x += offset;
+    }
 }
