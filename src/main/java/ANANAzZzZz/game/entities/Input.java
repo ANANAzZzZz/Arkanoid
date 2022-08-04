@@ -27,7 +27,5 @@ public class Input {
         z = false;
         x = false;
         c = false;
-        leftArrow = false;
-        rightArrow = false;
     }
 }

@@ -35,6 +35,12 @@ public class InputReader {
             if (key == GLFW_KEY_RIGHT && action == GLFW_PRESS) {
                 input.rightArrow = true;
             }
+            if (key == GLFW_KEY_LEFT && action == GLFW_RELEASE) {
+                input.leftArrow = false;
+            }
+            if (key == GLFW_KEY_RIGHT && action == GLFW_RELEASE) {
+                input.rightArrow = false;
+            }
         });
     }
 
