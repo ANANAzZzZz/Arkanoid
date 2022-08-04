@@ -42,10 +42,10 @@ public class GameStateProcessor {
 
         if (!(input.leftArrow && input.rightArrow)) {
             if (input.leftArrow) {
-                gameState.player.move(-1);
+                gameState.player.move(-3);
             }
             if (input.rightArrow) {
-                gameState.player.move(1);
+                gameState.player.move(3);
             }
         }
 
