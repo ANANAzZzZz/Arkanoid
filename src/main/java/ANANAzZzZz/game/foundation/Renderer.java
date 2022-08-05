@@ -17,9 +17,6 @@ import static org.lwjgl.system.MemoryStack.stackPush;
 import static org.lwjgl.system.MemoryUtil.NULL;
 
 public class Renderer {
-    private final int screenLength = 768;
-    private final float multiplier = 0.005f;
-
     public void setup() {
         // This line is critical for LWJGL's interoperation with GLFW's
         // OpenGL context, or any context that is managed externally.
@@ -47,7 +44,7 @@ public class Renderer {
         glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE); // the window will stay hidden after creation
 
         // Create the window
-        long windowId = glfwCreateWindow(screenLength, screenLength, "Arkanoid", NULL, NULL);
+        long windowId = glfwCreateWindow(768, 768, "Arkanoid", NULL, NULL);
         if (windowId == NULL) {
             throw new RuntimeException("Failed to create the GLFW window");
         }
@@ -94,36 +91,29 @@ public class Renderer {
     public void render(long windowId, GameState gameState) {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
 
-        renderAxis();
         renderBricks(gameState.bricks);
         renderPlayer(gameState.player);
 
         glfwSwapBuffers(windowId); // swap the color buffers
     }
 
-    private void renderAxis() {
-        renderLine(0, screenLength / 2, 0, -screenLength / 2);
-        renderLine(-screenLength / 2, 0, screenLength / 2, 0);
-    }
-
     private void renderBricks(ArrayList<Brick> bricks) {
         for (Brick brick : bricks) {
-            Point point = brick.getCoordinate();
-            renderRectangle(point.x, point.y, 20, 10, brick.getColor());
+            Point coordinate = brick.getCoordinate();
+            renderRectangle(coordinate.x, coordinate.y, Brick.width, Brick.height, brick.getColor());
         }
     }
 
     private void renderPlayer(Player player) {
         Point coordinate = player.getCoordinate();
-        renderRectangle(coordinate.x, coordinate.y, 40, 10, Colors.white);
+        renderRectangle(coordinate.x, coordinate.y, Player.width, Player.height, Colors.white);
     }
 
-    @SuppressWarnings("SameParameterValue")
     private void renderRectangle(int x, int y, int width, int height, Color color) {
-        float scaledX = x * multiplier;
-        float scaledY = y * multiplier;
-        float scaledHalfWidth = (width / 2f - width / 25f) * multiplier;
-        float scaledHalfHeight = (height / 2f - height / 15f) * multiplier;
+        float scaledX = scaleToPixel(x);
+        float scaledY = scaleToPixel(y);
+        float scaledHalfWidth = scaleToPixel(width) / 2;
+        float scaledHalfHeight = scaleToPixel(height) / 2;
 
         GL11.glColor3f(color.getFloatRed(), color.getFloatGreen(), color.getFloatBlue());
 
@@ -135,17 +125,7 @@ public class Renderer {
         glEnd();
     }
 
-    private void renderLine(int x1, int y1, int x2, int y2) {
-        float scaledX1 = x1 * multiplier;
-        float scaledY1 = y1 * multiplier;
-        float scaledX2 = x2 * multiplier;
-        float scaledY2 = y2 * multiplier;
-
-        GL11.glColor3f(255, 255, 0);
-
-        glBegin(GL_LINES);
-        glVertex2f(scaledX1, scaledY1);
-        glVertex2f(scaledX2, scaledY2);
-        glEnd();
+    private float scaleToPixel(int i) {
+        return i / 200f;
     }
 }

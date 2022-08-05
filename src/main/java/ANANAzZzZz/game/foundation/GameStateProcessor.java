@@ -22,13 +22,17 @@ public class GameStateProcessor {
 
         ArrayList<Brick> bricks = new ArrayList<>();
         for (int i = -9; i < 10; i++) {
-            bricks.add(new UnbreakableBrick(i * 20, 110));
-            bricks.add(new MultiHitBrick(i * 20, 100));
-            bricks.add(new GoldenBrick(i * 20, 90));
-            bricks.add(new SimpleBrick(i * 20, 80));
+            int x = i * (Brick.width + 1);
+            int baseY = 110;
+            int yStep = 11;
+
+            bricks.add(new UnbreakableBrick(x, baseY));
+            bricks.add(new MultiHitBrick(x, baseY - yStep));
+            bricks.add(new GoldenBrick(x, baseY - yStep * 2));
+            bricks.add(new SimpleBrick(x, baseY - yStep * 3));
         }
 
-        return new GameState(player, bricks);
+        return new GameState(400, player, bricks);
     }
 
     public GameState update(Input input, GameState gameState) {
@@ -42,10 +46,16 @@ public class GameStateProcessor {
 
         if (!(input.leftArrow && input.rightArrow)) {
             if (input.leftArrow) {
-                gameState.player.move(-3);
+                int leftestPlayerX = gameState.player.getCoordinate().x - Player.width / 2;
+                if (leftestPlayerX > -gameState.boardLength / 2) {
+                    gameState.player.move(-3);
+                }
             }
             if (input.rightArrow) {
-                gameState.player.move(3);
+                int rightestPlayerX = gameState.player.getCoordinate().x + Player.width / 2;
+                if (rightestPlayerX < gameState.boardLength / 2) {
+                    gameState.player.move(3);
+                }
             }
         }
 
