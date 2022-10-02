@@ -24,7 +24,7 @@ public class Player extends Brick {
 
     @Override
     public int getHeight() {
-        return 10;
+        return 2;
     }
 
     @Override
