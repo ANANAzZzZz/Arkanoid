@@ -21,7 +21,7 @@ public class GameStateProcessor {
 
         ArrayList<Brick> bricks = new ArrayList<>();
         for (int i = -9; i < 10; i++) {
-            int x = i * (Brick.width + 1);
+            int x = i * Brick.width;
             int baseY = 110;
             int yStep = 11;
 

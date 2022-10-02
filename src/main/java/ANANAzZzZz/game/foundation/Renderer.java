@@ -103,7 +103,8 @@ public class Renderer {
     private void renderBricks(ArrayList<Brick> bricks) {
         for (Brick brick : bricks) {
             Point coordinate = brick.getCoordinate();
-            renderRectangle(coordinate.x, coordinate.y, brick.getWidth(), brick.getHeight(), brick.getColor());
+            // -1 to visually separate bricks
+            renderRectangle(coordinate.x, coordinate.y, brick.getWidth() - 1, brick.getHeight(), brick.getColor());
         }
     }
 
