@@ -17,7 +17,7 @@ public class GameStateProcessor {
     public GameState init() {
         Player player = new Player(0, -120);
 
-        Ball ball = new Ball(10, 50, 1, 1);
+        Ball ball = new Ball(10, 30, 3, 3);
 
         ArrayList<Brick> bricks = new ArrayList<>();
         for (int i = -9; i < 10; i++) {
@@ -66,40 +66,43 @@ public class GameStateProcessor {
     private void updateBall(GameState gameState) {
         Point predictedBallCoordinate = gameState.ball.predictMove();
         processBoardBoundsCollision(gameState, predictedBallCoordinate);
-        processPlayerCollision(gameState, predictedBallCoordinate);
+        processBrickCollision(gameState.player, gameState.ball, predictedBallCoordinate);
+        for (Brick brick : gameState.bricks) {
+            processBrickCollision(brick, gameState.ball, predictedBallCoordinate);
+        }
 
         gameState.ball.move();
     }
 
-    private void processPlayerCollision(GameState gameState, Point predictedBallCoordinate) {
+    private void processBrickCollision(Brick brick, Ball ball, Point predictedBallCoordinate) {
         Point topLeft = new Point(
-                gameState.player.getCoordinate().x - gameState.player.getWidth() / 2,
-                gameState.player.getCoordinate().y + gameState.player.getHeight() / 2
+                brick.getCoordinate().x - brick.getWidth() / 2,
+                brick.getCoordinate().y + brick.getHeight() / 2
         );
         Point topRight = new Point(
-                gameState.player.getCoordinate().x + gameState.player.getWidth() / 2,
-                gameState.player.getCoordinate().y + gameState.player.getHeight() / 2
+                brick.getCoordinate().x + brick.getWidth() / 2,
+                brick.getCoordinate().y + brick.getHeight() / 2
         );
         Point bottomLeft = new Point(
-                gameState.player.getCoordinate().x - gameState.player.getWidth() / 2,
-                gameState.player.getCoordinate().y - gameState.player.getHeight() / 2
+                brick.getCoordinate().x - brick.getWidth() / 2,
+                brick.getCoordinate().y - brick.getHeight() / 2
         );
         Point bottomRight = new Point(
-                gameState.player.getCoordinate().x + gameState.player.getWidth() / 2,
-                gameState.player.getCoordinate().y - gameState.player.getHeight() / 2
+                brick.getCoordinate().x + brick.getWidth() / 2,
+                brick.getCoordinate().y - brick.getHeight() / 2
         );
 
-        if (areSegmentsIntersected(topLeft, topRight, gameState.ball.getCoordinate(), predictedBallCoordinate)) {
-            gameState.ball.changeMoveDirection(1, -1);
+        if (areSegmentsIntersected(topLeft, topRight, ball.getCoordinate(), predictedBallCoordinate)) {
+            ball.changeMoveDirection(1, -1);
         }
-        if (areSegmentsIntersected(topRight, bottomRight, gameState.ball.getCoordinate(), predictedBallCoordinate)) {
-            gameState.ball.changeMoveDirection(-1, 1);
+        if (areSegmentsIntersected(topRight, bottomRight, ball.getCoordinate(), predictedBallCoordinate)) {
+            ball.changeMoveDirection(-1, 1);
         }
-        if (areSegmentsIntersected(bottomRight, bottomLeft, gameState.ball.getCoordinate(), predictedBallCoordinate)) {
-            gameState.ball.changeMoveDirection(1, -1);
+        if (areSegmentsIntersected(bottomRight, bottomLeft, ball.getCoordinate(), predictedBallCoordinate)) {
+            ball.changeMoveDirection(1, -1);
         }
-        if (areSegmentsIntersected(bottomLeft, topLeft, gameState.ball.getCoordinate(), predictedBallCoordinate)) {
-            gameState.ball.changeMoveDirection(-1, 1);
+        if (areSegmentsIntersected(bottomLeft, topLeft, ball.getCoordinate(), predictedBallCoordinate)) {
+            ball.changeMoveDirection(-1, 1);
         }
     }
 
