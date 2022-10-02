@@ -8,6 +8,7 @@ public class Input {
     public boolean s;
     public boolean leftArrow;
     public boolean rightArrow;
+    public boolean space;
 
     public Input() {
         this.z = false;
@@ -17,6 +18,7 @@ public class Input {
         this.s = false;
         this.leftArrow = false;
         this.rightArrow = false;
+        this.space = false;
     }
 
     public Input(Input input) {
@@ -27,6 +29,7 @@ public class Input {
         this.s = input.s;
         this.leftArrow = input.leftArrow;
         this.rightArrow = input.rightArrow;
+        this.space = input.space;
     }
 
     public void reset() {
@@ -35,5 +38,6 @@ public class Input {
         c = false;
         w = false;
         s = false;
+        space = false;
     }
 }

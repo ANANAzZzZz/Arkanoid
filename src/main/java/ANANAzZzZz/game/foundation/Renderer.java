@@ -91,10 +91,12 @@ public class Renderer {
     public void render(long windowId, GameState gameState) {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
 
-        if (!gameState.isGameOver) {
-            renderBricks(gameState.bricks);
-            renderPlayer(gameState.player);
-            renderBall(gameState.ball);
+//        if (!gameState.isGameOver) {
+        renderBricks(gameState.bricks);
+        renderPlayer(gameState.player);
+
+        for (Ball ball : gameState.balls) {
+            renderBall(ball);
         }
 
         glfwSwapBuffers(windowId); // swap the color buffers

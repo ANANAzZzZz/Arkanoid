@@ -83,20 +83,21 @@ public class GameStateProcessor {
     }
 
     public GameState update(Input input, GameState gameState) {
-        Point predictedBallCoordinate = gameState.ball.predictMove();
-        processBoardBoundsCollision(gameState, predictedBallCoordinate);
-        processBrickCollision(gameState.player, gameState.ball, predictedBallCoordinate);
+        for (Ball ball : gameState.balls) {
+            Point predictedBallCoordinate = ball.predictMove();
+            processBoardBoundsCollision(gameState, ball, predictedBallCoordinate);
+            processBrickCollision(gameState.player, ball, predictedBallCoordinate);
 
-        Iterator<Brick> i = gameState.bricks.iterator();
-        while (i.hasNext()) {
-            boolean isDestroyed = processBrickCollision(i.next(), gameState.ball, predictedBallCoordinate);
-            if (isDestroyed) {
-                i.remove();
+            Iterator<Brick> i = gameState.bricks.iterator();
+            while (i.hasNext()) {
+                boolean isDestroyed = processBrickCollision(i.next(), ball, predictedBallCoordinate);
+                if (isDestroyed) {
+                    i.remove();
+                }
             }
+
+            ball.move();
         }
-
-        gameState.ball.move();
-
         updateDebugActions(input, gameState);
 
         return gameState;
@@ -109,14 +110,16 @@ public class GameStateProcessor {
         if (input.w) {
             gameState.player.increaseWidth();
         }
-
         if (input.z || input.x) {
             hitSomeBricks(input, gameState);
         }
-
         if (input.c) {
             hitAllBricks(gameState);
         }
+        if (input.space) {
+            multiplyBalls(gameState);
+        }
+
 
         if (!(input.leftArrow && input.rightArrow)) {
             if (input.leftArrow) {
@@ -131,6 +134,18 @@ public class GameStateProcessor {
                     gameState.player.move(3);
                 }
             }
+        }
+    }
+
+    private void multiplyBalls(GameState gameState) {
+        int ballsSize = gameState.balls.size();
+        for (int i = 0; i < ballsSize; i++) {
+            gameState.balls.add(new Ball(
+                    gameState.balls.get(i).getCoordinate().x,
+                    gameState.balls.get(i).getCoordinate().y,
+                    -1,
+                    -1
+            ));
         }
     }
 
@@ -172,18 +187,20 @@ public class GameStateProcessor {
         return false;
     }
 
-    private void processBoardBoundsCollision(GameState gameState, Point predictedBallCoordinate) {
+    private void processBoardBoundsCollision(GameState gameState, Ball ball, Point predictedBallCoordinate) {
         if (predictedBallCoordinate.x > gameState.boardLength / 2) {
-            gameState.ball.changeMoveDirection(-1, 1);
+            ball.changeMoveDirection(-1, 1);
         }
         if (predictedBallCoordinate.x < -gameState.boardLength / 2) {
-            gameState.ball.changeMoveDirection(-1, 1);
+            ball.changeMoveDirection(-1, 1);
         }
         if (predictedBallCoordinate.y > gameState.boardLength / 2) {
-            gameState.ball.changeMoveDirection(1, -1);
+            ball.changeMoveDirection(1, -1);
         }
         if (predictedBallCoordinate.y < -gameState.boardLength / 2) {
-            gameState.isGameOver = true;
+            if (gameState.balls.size() == 0) {
+                gameState.isGameOver = true;
+            }
         }
     }
 

@@ -34,6 +34,9 @@ public class InputReader {
             if (key == GLFW_KEY_S && action == GLFW_PRESS) {
                 input.s = true;
             }
+            if (key == GLFW_KEY_SPACE && action == GLFW_PRESS) {
+                input.space = true;
+            }
 
             if (key == GLFW_KEY_LEFT && action == GLFW_PRESS) {
                 input.leftArrow = true;

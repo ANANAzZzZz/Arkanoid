@@ -8,14 +8,15 @@ public class GameState {
     public final int boardLength;
     public final Player player;
     public final ArrayList<Brick> bricks;
-    public final Ball ball;
+    public final ArrayList<Ball> balls;
     public boolean isGameOver;
 
     public GameState(int boardLength, Player player, ArrayList<Brick> bricks, Ball ball) {
         this.boardLength = boardLength;
         this.player = player;
         this.bricks = bricks;
-        this.ball = ball;
+        this.balls = new ArrayList<>();
+        balls.add(ball);
         this.isGameOver = false;
     }
 }
