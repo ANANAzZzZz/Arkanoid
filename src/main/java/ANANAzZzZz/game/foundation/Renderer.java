@@ -107,7 +107,7 @@ public class Renderer {
 
     private void renderPlayer(Player player) {
         Point coordinate = player.getCoordinate();
-        renderRectangle(coordinate.x, coordinate.y, Player.width, Player.height, Colors.white);
+        renderRectangle(coordinate.x, coordinate.y, Player.width, Player.height, player.getColor());
     }
 
     private void renderBall(Ball ball) {
@@ -136,6 +136,7 @@ public class Renderer {
         glEnd();
     }
 
+    @SuppressWarnings("SameParameterValue")
     private void renderRectangle(int x, int y, int width, int height, Color color) {
         float scaledX = scaleToPixel(x);
         float scaledY = scaleToPixel(y);

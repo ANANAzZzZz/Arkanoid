@@ -15,7 +15,7 @@ public class GameStateProcessor {
     }
 
     public GameState init() {
-        Player player = new Player(new Point(0, -120));
+        Player player = new Player(0, -120);
 
         Ball ball = new Ball(10, 50, 1, 1);
 

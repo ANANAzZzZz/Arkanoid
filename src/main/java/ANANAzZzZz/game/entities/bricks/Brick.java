@@ -7,7 +7,7 @@ public abstract class Brick {
     public static final int width;
     public static final int height;
 
-    private final Point coordinate;
+    protected final Point coordinate;
 
     static {
         width = 20;

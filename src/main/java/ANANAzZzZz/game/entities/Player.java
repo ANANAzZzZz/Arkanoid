@@ -1,25 +1,24 @@
 package ANANAzZzZz.game.entities;
 
-public class Player {
-    public static final int width;
-    public static final int height;
+import ANANAzZzZz.game.entities.bricks.Brick;
 
-    private final Point coordinate;
+public class Player extends Brick {
 
-    static {
-        width = 40;
-        height = 10;
-    }
-
-    public Player(Point coordinate) {
-        this.coordinate = coordinate;
-    }
-
-    public Point getCoordinate() {
-        return new Point(coordinate);
+    public Player(int x, int y) {
+        super(x, y);
     }
 
     public void move(int offset) {
-        coordinate.x += offset;
+        this.coordinate.x += offset;
+    }
+
+    @Override
+    public boolean hit() {
+        return false;
+    }
+
+    @Override
+    public Color getColor() {
+        return Colors.white;
     }
 }
