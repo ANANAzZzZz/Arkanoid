@@ -65,7 +65,7 @@ public class GameStateProcessor {
 
     private void updateBall(GameState gameState) {
         Point predictedBallCoordinate = gameState.ball.predictMove();
-        processBoardBoundsCollisions(gameState, predictedBallCoordinate);
+        processBoardBoundsCollision(gameState, predictedBallCoordinate);
         processPlayerCollision(gameState, predictedBallCoordinate);
 
         gameState.ball.move();
@@ -103,7 +103,7 @@ public class GameStateProcessor {
         }
     }
 
-    private void processBoardBoundsCollisions(GameState gameState, Point predictedBallCoordinate) {
+    private void processBoardBoundsCollision(GameState gameState, Point predictedBallCoordinate) {
         if (predictedBallCoordinate.x > gameState.boardLength / 2) {
             gameState.ball.changeMoveDirection(-1, 1);
         }
