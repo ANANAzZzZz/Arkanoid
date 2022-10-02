@@ -65,7 +65,45 @@ public class GameStateProcessor {
 
     private void updateBall(GameState gameState) {
         Point predictedBallCoordinate = gameState.ball.predictMove();
+        processBoardBoundsCollisions(gameState, predictedBallCoordinate);
+        processPlayerCollision(gameState, predictedBallCoordinate);
 
+        gameState.ball.move();
+    }
+
+    private void processPlayerCollision(GameState gameState, Point predictedBallCoordinate) {
+        Point topLeft = new Point(
+                gameState.player.getCoordinate().x - Player.width / 2,
+                gameState.player.getCoordinate().y + Player.height / 2
+        );
+        Point topRight = new Point(
+                gameState.player.getCoordinate().x + Player.width / 2,
+                gameState.player.getCoordinate().y + Player.height / 2
+        );
+        Point bottomLeft = new Point(
+                gameState.player.getCoordinate().x - Player.width / 2,
+                gameState.player.getCoordinate().y - Player.height / 2
+        );
+        Point bottomRight = new Point(
+                gameState.player.getCoordinate().x + Player.width / 2,
+                gameState.player.getCoordinate().y - Player.height / 2
+        );
+
+        if (areSegmentsIntersected(topLeft, topRight, gameState.ball.getCoordinate(), predictedBallCoordinate)) {
+            gameState.ball.changeMoveDirection(1, -1);
+        }
+        if (areSegmentsIntersected(topRight, bottomRight, gameState.ball.getCoordinate(), predictedBallCoordinate)) {
+            gameState.ball.changeMoveDirection(-1, 1);
+        }
+        if (areSegmentsIntersected(bottomRight, bottomLeft, gameState.ball.getCoordinate(), predictedBallCoordinate)) {
+            gameState.ball.changeMoveDirection(1, -1);
+        }
+        if (areSegmentsIntersected(bottomLeft, topLeft, gameState.ball.getCoordinate(), predictedBallCoordinate)) {
+            gameState.ball.changeMoveDirection(-1, 1);
+        }
+    }
+
+    private void processBoardBoundsCollisions(GameState gameState, Point predictedBallCoordinate) {
         if (predictedBallCoordinate.x > gameState.boardLength / 2) {
             gameState.ball.changeMoveDirection(-1, 1);
         }
@@ -78,8 +116,6 @@ public class GameStateProcessor {
         if (predictedBallCoordinate.y < -gameState.boardLength / 2) {
             gameState.ball.changeMoveDirection(1, -1);
         }
-
-        gameState.ball.move();
     }
 
     private void hitSomeBricks(Input input, GameState gameState) {
@@ -108,5 +144,17 @@ public class GameStateProcessor {
                 i.remove();
             }
         }
+    }
+
+    // Copy-pasted from https://stackoverflow.com/a/9997374/6858443
+    private boolean areSegmentsIntersected(Point segment1From, Point segment1To, Point segment2From, Point segment2To) {
+        return ccw(segment1From, segment2From, segment2To) != ccw(segment1To, segment2From, segment2To) &&
+                ccw(segment1From, segment1To, segment2From) != ccw(segment1From, segment1To, segment2To);
+    }
+
+    // Copy-pasted from https://stackoverflow.com/a/9997374/6858443
+    // Blame author for shit naming
+    private boolean ccw(Point A, Point B, Point C) {
+        return (C.y - A.y) * (B.x - A.x) > (B.y - A.y) * (C.x - A.x);
     }
 }
