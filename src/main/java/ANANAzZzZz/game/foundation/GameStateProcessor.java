@@ -17,7 +17,7 @@ public class GameStateProcessor {
     public GameState init() {
         Player player = new Player(new Point(0, -120));
 
-        Ball ball = new Ball(10, 10);
+        Ball ball = new Ball(10, 10, 1, 1);
 
         ArrayList<Brick> bricks = new ArrayList<>();
         for (int i = -9; i < 10; i++) {
@@ -35,6 +35,8 @@ public class GameStateProcessor {
     }
 
     public GameState update(Input input, GameState gameState) {
+        gameState.ball.move();
+
         if (input.z || input.x) {
             hitSomeBricks(input, gameState);
         }
