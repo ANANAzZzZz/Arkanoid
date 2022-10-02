@@ -101,13 +101,13 @@ public class Renderer {
     private void renderBricks(ArrayList<Brick> bricks) {
         for (Brick brick : bricks) {
             Point coordinate = brick.getCoordinate();
-            renderRectangle(coordinate.x, coordinate.y, Brick.width, Brick.height, brick.getColor());
+            renderRectangle(coordinate.x, coordinate.y, brick.getWidth(), brick.getHeight(), brick.getColor());
         }
     }
 
     private void renderPlayer(Player player) {
         Point coordinate = player.getCoordinate();
-        renderRectangle(coordinate.x, coordinate.y, Player.width, Player.height, player.getColor());
+        renderRectangle(coordinate.x, coordinate.y, player.getWidth(), player.getHeight(), player.getColor());
     }
 
     private void renderBall(Ball ball) {

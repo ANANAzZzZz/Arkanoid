@@ -22,6 +22,14 @@ public abstract class Brick {
         return new Point(coordinate);
     }
 
+    public int getHeight() {
+        return height;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
     // returns true - if brick is destroyed
     public abstract boolean hit();
 

@@ -21,4 +21,14 @@ public class Player extends Brick {
     public Color getColor() {
         return Colors.white;
     }
+
+    @Override
+    public int getHeight() {
+        return 10;
+    }
+
+    @Override
+    public int getWidth() {
+        return 40;
+    }
 }

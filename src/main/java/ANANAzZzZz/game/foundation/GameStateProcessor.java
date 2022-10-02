@@ -47,13 +47,13 @@ public class GameStateProcessor {
 
         if (!(input.leftArrow && input.rightArrow)) {
             if (input.leftArrow) {
-                int leftestPlayerX = gameState.player.getCoordinate().x - Player.width / 2;
+                int leftestPlayerX = gameState.player.getCoordinate().x - gameState.player.getWidth() / 2;
                 if (leftestPlayerX > -gameState.boardLength / 2) {
                     gameState.player.move(-3);
                 }
             }
             if (input.rightArrow) {
-                int rightestPlayerX = gameState.player.getCoordinate().x + Player.width / 2;
+                int rightestPlayerX = gameState.player.getCoordinate().x + gameState.player.getWidth() / 2;
                 if (rightestPlayerX < gameState.boardLength / 2) {
                     gameState.player.move(3);
                 }
@@ -73,20 +73,20 @@ public class GameStateProcessor {
 
     private void processPlayerCollision(GameState gameState, Point predictedBallCoordinate) {
         Point topLeft = new Point(
-                gameState.player.getCoordinate().x - Player.width / 2,
-                gameState.player.getCoordinate().y + Player.height / 2
+                gameState.player.getCoordinate().x - gameState.player.getWidth() / 2,
+                gameState.player.getCoordinate().y + gameState.player.getHeight() / 2
         );
         Point topRight = new Point(
-                gameState.player.getCoordinate().x + Player.width / 2,
-                gameState.player.getCoordinate().y + Player.height / 2
+                gameState.player.getCoordinate().x + gameState.player.getWidth() / 2,
+                gameState.player.getCoordinate().y + gameState.player.getHeight() / 2
         );
         Point bottomLeft = new Point(
-                gameState.player.getCoordinate().x - Player.width / 2,
-                gameState.player.getCoordinate().y - Player.height / 2
+                gameState.player.getCoordinate().x - gameState.player.getWidth() / 2,
+                gameState.player.getCoordinate().y - gameState.player.getHeight() / 2
         );
         Point bottomRight = new Point(
-                gameState.player.getCoordinate().x + Player.width / 2,
-                gameState.player.getCoordinate().y - Player.height / 2
+                gameState.player.getCoordinate().x + gameState.player.getWidth() / 2,
+                gameState.player.getCoordinate().y - gameState.player.getHeight() / 2
         );
 
         if (areSegmentsIntersected(topLeft, topRight, gameState.ball.getCoordinate(), predictedBallCoordinate)) {
