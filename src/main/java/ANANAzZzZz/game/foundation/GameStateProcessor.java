@@ -38,8 +38,13 @@ public class GameStateProcessor {
         Point predictedBallCoordinate = gameState.ball.predictMove();
         processBoardBoundsCollision(gameState, predictedBallCoordinate);
         processBrickCollision(gameState.player, gameState.ball, predictedBallCoordinate);
-        for (Brick brick : gameState.bricks) {
-            processBrickCollision(brick, gameState.ball, predictedBallCoordinate);
+
+        Iterator<Brick> i = gameState.bricks.iterator();
+        while (i.hasNext()) {
+            boolean isDestroyed = processBrickCollision(i.next(), gameState.ball, predictedBallCoordinate);
+            if (isDestroyed) {
+                i.remove();
+            }
         }
 
         gameState.ball.move();
@@ -74,7 +79,7 @@ public class GameStateProcessor {
         }
     }
 
-    private void processBrickCollision(Brick brick, Ball ball, Point predictedBallCoordinate) {
+    private boolean processBrickCollision(Brick brick, Ball ball, Point predictedBallCoordinate) {
         Point topLeft = new Point(
                 brick.getCoordinate().x - brick.getWidth() / 2,
                 brick.getCoordinate().y + brick.getHeight() / 2
@@ -94,16 +99,22 @@ public class GameStateProcessor {
 
         if (areSegmentsIntersected(topLeft, topRight, ball.getCoordinate(), predictedBallCoordinate)) {
             ball.changeMoveDirection(1, -1);
+            return brick.hit();
         }
         if (areSegmentsIntersected(topRight, bottomRight, ball.getCoordinate(), predictedBallCoordinate)) {
             ball.changeMoveDirection(-1, 1);
+            return brick.hit();
         }
         if (areSegmentsIntersected(bottomRight, bottomLeft, ball.getCoordinate(), predictedBallCoordinate)) {
             ball.changeMoveDirection(1, -1);
+            return brick.hit();
         }
         if (areSegmentsIntersected(bottomLeft, topLeft, ball.getCoordinate(), predictedBallCoordinate)) {
             ball.changeMoveDirection(-1, 1);
+            return brick.hit();
         }
+
+        return false;
     }
 
     private void processBoardBoundsCollision(GameState gameState, Point predictedBallCoordinate) {
