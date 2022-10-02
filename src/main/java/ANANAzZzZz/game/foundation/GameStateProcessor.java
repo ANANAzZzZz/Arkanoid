@@ -17,7 +17,7 @@ public class GameStateProcessor {
     public GameState init() {
         Player player = new Player(new Point(0, -120));
 
-        Ball ball = new Ball(10, 10, 1, 1);
+        Ball ball = new Ball(10, 50, 1, 1);
 
         ArrayList<Brick> bricks = new ArrayList<>();
         for (int i = -9; i < 10; i++) {
@@ -35,7 +35,7 @@ public class GameStateProcessor {
     }
 
     public GameState update(Input input, GameState gameState) {
-        gameState.ball.move();
+        updateBall(gameState);
 
         if (input.z || input.x) {
             hitSomeBricks(input, gameState);
@@ -61,6 +61,25 @@ public class GameStateProcessor {
         }
 
         return gameState;
+    }
+
+    private void updateBall(GameState gameState) {
+        Point predictedBallCoordinate = gameState.ball.predictMove();
+
+        if (predictedBallCoordinate.x > gameState.boardLength / 2) {
+            gameState.ball.changeMoveDirection(-1, 1);
+        }
+        if (predictedBallCoordinate.x < -gameState.boardLength / 2) {
+            gameState.ball.changeMoveDirection(-1, 1);
+        }
+        if (predictedBallCoordinate.y > gameState.boardLength / 2) {
+            gameState.ball.changeMoveDirection(1, -1);
+        }
+        if (predictedBallCoordinate.y < -gameState.boardLength / 2) {
+            gameState.ball.changeMoveDirection(1, -1);
+        }
+
+        gameState.ball.move();
     }
 
     private void hitSomeBricks(Input input, GameState gameState) {

@@ -17,4 +17,18 @@ public class Ball {
         coordinate.x += moveDirection.x;
         coordinate.y += moveDirection.y;
     }
+
+    public Point predictMove() {
+        Point coordinateCopy = new Point(coordinate);
+
+        coordinateCopy.x += moveDirection.x;
+        coordinateCopy.y += moveDirection.y;
+
+        return coordinateCopy;
+    }
+
+    public void changeMoveDirection(int x, int y) {
+        this.moveDirection.x *= x;
+        this.moveDirection.y *= y;
+    }
 }
