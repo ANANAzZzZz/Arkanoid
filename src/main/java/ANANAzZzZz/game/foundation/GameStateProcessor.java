@@ -1,9 +1,6 @@
 package ANANAzZzZz.game.foundation;
 
-import ANANAzZzZz.game.entities.GameState;
-import ANANAzZzZz.game.entities.Input;
-import ANANAzZzZz.game.entities.Player;
-import ANANAzZzZz.game.entities.Point;
+import ANANAzZzZz.game.entities.*;
 import ANANAzZzZz.game.entities.bricks.*;
 
 import java.util.ArrayList;
@@ -20,6 +17,8 @@ public class GameStateProcessor {
     public GameState init() {
         Player player = new Player(new Point(0, -120));
 
+        Ball ball = new Ball(10, 10);
+
         ArrayList<Brick> bricks = new ArrayList<>();
         for (int i = -9; i < 10; i++) {
             int x = i * (Brick.width + 1);
@@ -32,7 +31,7 @@ public class GameStateProcessor {
             bricks.add(new SimpleBrick(x, baseY - yStep * 3));
         }
 
-        return new GameState(400, player, bricks);
+        return new GameState(400, player, bricks, ball);
     }
 
     public GameState update(Input input, GameState gameState) {

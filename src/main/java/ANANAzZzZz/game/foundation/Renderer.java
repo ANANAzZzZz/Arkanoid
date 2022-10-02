@@ -93,6 +93,7 @@ public class Renderer {
 
         renderBricks(gameState.bricks);
         renderPlayer(gameState.player);
+        renderBall(gameState.ball);
 
         glfwSwapBuffers(windowId); // swap the color buffers
     }
@@ -107,6 +108,32 @@ public class Renderer {
     private void renderPlayer(Player player) {
         Point coordinate = player.getCoordinate();
         renderRectangle(coordinate.x, coordinate.y, Player.width, Player.height, Colors.white);
+    }
+
+    private void renderBall(Ball ball) {
+        Point coordinate = ball.getCoordinate();
+        renderCircle(coordinate.x, coordinate.y, 3, Colors.white);
+    }
+
+    @SuppressWarnings("SameParameterValue")
+    private void renderCircle(int x, int y, int radius, Color color) {
+        float scaledX = scaleToPixel(x);
+        float scaledY = scaleToPixel(y);
+        float scaledRadius = scaleToPixel(radius);
+        float diagonalScale = 0.75f;
+
+        GL11.glColor3f(color.getFloatRed(), color.getFloatGreen(), color.getFloatBlue());
+
+        glBegin(GL_TRIANGLE_FAN);
+        glVertex2f(scaledX + scaledRadius, scaledY);
+        glVertex2f(scaledX + diagonalScale * scaledRadius, scaledY + diagonalScale * scaledRadius);
+        glVertex2f(scaledX, scaledY + scaledRadius);
+        glVertex2f(scaledX - diagonalScale * scaledRadius, scaledY + diagonalScale * scaledRadius);
+        glVertex2f(scaledX - scaledRadius, scaledY);
+        glVertex2f(scaledX - diagonalScale * scaledRadius, scaledY - diagonalScale * scaledRadius);
+        glVertex2f(scaledX, scaledY - scaledRadius);
+        glVertex2f(scaledX + diagonalScale * scaledRadius, scaledY - diagonalScale * scaledRadius);
+        glEnd();
     }
 
     private void renderRectangle(int x, int y, int width, int height, Color color) {
