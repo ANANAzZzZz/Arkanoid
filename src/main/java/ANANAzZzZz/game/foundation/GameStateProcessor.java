@@ -128,7 +128,7 @@ public class GameStateProcessor {
             gameState.ball.changeMoveDirection(1, -1);
         }
         if (predictedBallCoordinate.y < -gameState.boardLength / 2) {
-            gameState.ball.changeMoveDirection(1, -1);
+            gameState.isGameOver = true;
         }
     }
 

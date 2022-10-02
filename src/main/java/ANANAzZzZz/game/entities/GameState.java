@@ -9,11 +9,13 @@ public class GameState {
     public final Player player;
     public final ArrayList<Brick> bricks;
     public final Ball ball;
+    public boolean isGameOver;
 
     public GameState(int boardLength, Player player, ArrayList<Brick> bricks, Ball ball) {
         this.boardLength = boardLength;
         this.player = player;
         this.bricks = bricks;
         this.ball = ball;
+        this.isGameOver = false;
     }
 }
