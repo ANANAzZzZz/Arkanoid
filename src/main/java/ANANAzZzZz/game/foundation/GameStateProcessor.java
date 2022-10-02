@@ -17,7 +17,7 @@ public class GameStateProcessor {
     public GameState init() {
         Player player = new Player(0, -120);
 
-        Ball ball = new Ball(10, 30, 3, 3);
+        Ball ball = new Ball(10, 30, 2, 2);
 
         ArrayList<Brick> bricks = new ArrayList<>();
         for (int i = -9; i < 10; i++) {
@@ -35,8 +35,21 @@ public class GameStateProcessor {
     }
 
     public GameState update(Input input, GameState gameState) {
-        updateBall(gameState);
+        Point predictedBallCoordinate = gameState.ball.predictMove();
+        processBoardBoundsCollision(gameState, predictedBallCoordinate);
+        processBrickCollision(gameState.player, gameState.ball, predictedBallCoordinate);
+        for (Brick brick : gameState.bricks) {
+            processBrickCollision(brick, gameState.ball, predictedBallCoordinate);
+        }
 
+        gameState.ball.move();
+
+        updateDebugActions(input, gameState);
+
+        return gameState;
+    }
+
+    private void updateDebugActions(Input input, GameState gameState) {
         if (input.z || input.x) {
             hitSomeBricks(input, gameState);
         }
@@ -59,19 +72,6 @@ public class GameStateProcessor {
                 }
             }
         }
-
-        return gameState;
-    }
-
-    private void updateBall(GameState gameState) {
-        Point predictedBallCoordinate = gameState.ball.predictMove();
-        processBoardBoundsCollision(gameState, predictedBallCoordinate);
-        processBrickCollision(gameState.player, gameState.ball, predictedBallCoordinate);
-        for (Brick brick : gameState.bricks) {
-            processBrickCollision(brick, gameState.ball, predictedBallCoordinate);
-        }
-
-        gameState.ball.move();
     }
 
     private void processBrickCollision(Brick brick, Ball ball, Point predictedBallCoordinate) {
