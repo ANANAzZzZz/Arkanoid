@@ -15,20 +15,68 @@ public class GameStateProcessor {
     }
 
     public GameState init() {
-        Player player = new Player(0, -120);
+        Player player = new Player(0, -180);
 
-        Ball ball = new Ball(10, 30, 2, 2);
+        Ball ball = new Ball(-20, -50, 1, 1);
 
         ArrayList<Brick> bricks = new ArrayList<>();
-        for (int i = -9; i < 10; i++) {
-            int x = i * Brick.width;
-            int baseY = 110;
-            int yStep = 11;
+        for (int i = -9; i < 11; i++) {
+            int x = i * Brick.width - 10;
+            int baseY = 194;
+            int yStep = 10;
 
+            // Unbreakable bricks
             bricks.add(new UnbreakableBrick(x, baseY));
-            bricks.add(new MultiHitBrick(x, baseY - yStep));
-            bricks.add(new GoldenBrick(x, baseY - yStep * 2));
-            bricks.add(new SimpleBrick(x, baseY - yStep * 3));
+            if (i != 5 && i != 6) {
+                bricks.add(new UnbreakableBrick(x, baseY - yStep * 19));
+            }
+            if (i == -9 || i == 10) {
+                for (int j = 1; j < 19; j++) {
+                    bricks.add(new UnbreakableBrick(x, baseY - yStep * j));
+                }
+            }
+
+            // Golden bricks
+            if (i != -9 && i != 10) {
+                bricks.add(new GoldenBrick(x, baseY - yStep));
+                if (i != 5 && i != 6) {
+                    bricks.add(new GoldenBrick(x, baseY - yStep * 18));
+                }
+            }
+            if (i == -8 || i == 9) {
+                for (int j = 1; j < 19; j++) {
+                    bricks.add(new GoldenBrick(x, baseY - yStep * j));
+                }
+            }
+
+            // Multi-hit bricks
+            if (i > -8 && i < 9) {
+                bricks.add(new MultiHitBrick(x, baseY - yStep * 2));
+                if (i != 5 && i != 6) {
+                    bricks.add(new MultiHitBrick(x, baseY - yStep * 17));
+                }
+            }
+            if (i == -7 || i == 8) {
+                for (int j = 2; j < 18; j++) {
+                    bricks.add(new MultiHitBrick(x, baseY - yStep * j));
+                }
+            }
+
+            // Simple bricks
+            if (i > -7 && i < 8) {
+                bricks.add(new SimpleBrick(x, baseY - yStep * 3));
+                bricks.add(new SimpleBrick(x, baseY - yStep * 4));
+                if (i == 7 || i == -6) {
+                    for (int j = 3; j < 17; j++) {
+                        bricks.add(new SimpleBrick(x, baseY - yStep * j));
+                    }
+                }
+                if (i > -6 && i < 5) {
+                    for (int j = 7; j < 17; j++) {
+                        bricks.add(new SimpleBrick(x, baseY - yStep * j));
+                    }
+                }
+            }
         }
 
         return new GameState(400, player, bricks, ball);

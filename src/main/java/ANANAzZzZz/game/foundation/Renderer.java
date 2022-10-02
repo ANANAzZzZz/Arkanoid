@@ -104,7 +104,7 @@ public class Renderer {
         for (Brick brick : bricks) {
             Point coordinate = brick.getCoordinate();
             // -1 to visually separate bricks
-            renderRectangle(coordinate.x, coordinate.y, brick.getWidth() - 1, brick.getHeight(), brick.getColor());
+            renderRectangle(coordinate.x, coordinate.y, brick.getWidth() - 1, brick.getHeight() - 1, brick.getColor());
         }
     }
 
