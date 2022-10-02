@@ -4,6 +4,8 @@ public class Input {
     public boolean z;
     public boolean x;
     public boolean c;
+    public boolean w;
+    public boolean s;
     public boolean leftArrow;
     public boolean rightArrow;
 
@@ -11,6 +13,8 @@ public class Input {
         this.z = false;
         this.x = false;
         this.c = false;
+        this.w = false;
+        this.s = false;
         this.leftArrow = false;
         this.rightArrow = false;
     }
@@ -19,6 +23,8 @@ public class Input {
         this.z = input.z;
         this.x = input.x;
         this.c = input.c;
+        this.w = input.w;
+        this.s = input.s;
         this.leftArrow = input.leftArrow;
         this.rightArrow = input.rightArrow;
     }
@@ -27,5 +33,7 @@ public class Input {
         z = false;
         x = false;
         c = false;
+        w = false;
+        s = false;
     }
 }

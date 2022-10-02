@@ -103,6 +103,13 @@ public class GameStateProcessor {
     }
 
     private void updateDebugActions(Input input, GameState gameState) {
+        if (input.s) {
+            gameState.player.decreaseWidth();
+        }
+        if (input.w) {
+            gameState.player.increaseWidth();
+        }
+
         if (input.z || input.x) {
             hitSomeBricks(input, gameState);
         }
